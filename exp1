@@ -1,0 +1,76 @@
+Experiment No 	 	: 1 
+Name of the Experiment : Data Loading, Data Cleaning and Feature Engineering using Python Problem Statement: 
+To load a dataset into Python, perform data preprocessing by handling missing values, removing duplicate records, encoding categorical variables, scaling numerical features, and preparing the dataset for Machine Learning model development. 
+Algorithm / Procedure: 
+Step 1: Import the required libraries. 
+Step 2: Load the dataset. 
+Step 3: Display dataset information. 
+Step 4: Identify missing values. 
+Step 5: Replace missing values using Mean/Mode. 
+Step 6: Remove duplicate records. 
+Step 7: Encode categorical variables. 
+Step 8: Scale numerical attributes. 
+Step 9: Display the processed dataset. 
+Step 10:  Save the cleaned dataset. 
+ 
+Python Programming: 
+ 
+# Data Loading, Cleaning and Feature Engineering import pandas as pd import numpy as np import matplotlib.pyplot as plt 
+import seaborn as sns 
+ 
+# Load Dataset 
+data = pd.read_csv('winequality-red.csv') 
+ 
+# Display first five rows data.head() 
+ 
+# Dataset Information 
+ 
+print("Dataset Shape :", data.shape) print("\nColumn Names") print(data.columns) print("\nDataset Information") 
+data.info() 
+ 
+# Statistical Summary 
+data.describe() 
+ 
+#Missing Values 
+ 
+print("Missing Values") 
+print(data.isnull().sum()) 
+ 
+# Mean Imputation 
+ 
+from sklearn.impute import SimpleImputer 
+ 
+X = data.drop('quality', axis=1) 
+y = data['quality'] 
+mean_imputer = SimpleImputer(strategy='mean') X_mean = mean_imputer.fit_transform(X) 
+print(pd.DataFrame(X_mean).isnull().sum()) 
+ 
+#Duplicate record 
+ 
+duplicates = data.duplicated().sum() 
+print("Duplicate Rows =", duplicates) 
+ 
+#Remove Duplicate data = data.drop_duplicates() 
+print("New Shape =", data.shape) 
+ 
+#Detect Outliers using Boxplot plt.figure(figsize=(14,8)) sns.boxplot(data=data) plt.xticks(rotation=90) plt.title("Outlier Detection using Boxplot") plt.show() 
+ 
+# Remove Outliers using IQR 
+Q1 = data.quantile(0.25) 
+Q3 = data.quantile(0.75) IQR = Q3 - Q1 
+data_clean = data[~((data < (Q1 - 1.5*IQR)) |                     (data > (Q3 + 1.5*IQR))).any(axis=1)] print("Original Shape :", data.shape) 
+print("After Removing Outliers :", data_clean.shape) 
+ 
+#Histogram of All Features 
+data_clean.hist(figsize=(16,12), bins=20) plt.suptitle("Histogram of All Features", fontsize=16) plt.tight_layout() 
+plt.show() 
+ 
+ 
+Excepted Output: 
+    
+  
+ 
+ 
+ 
+ 
+ 
