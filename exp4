@@ -1,0 +1,72 @@
+Experiment No
+Name of the Experiment
+Problem Statement
+ Implementation and Performance Evaluation of Gaussian Naive Bayes and Multinomial Naive Bayes Classifiers Using the Adult Income Dataset
+ 
+Implement Gaussian Naive Bayes and Multinomial Naive Bayes classifiers to predict the income category of individuals using the Adult Income dataset. Preprocess the dataset, train both models, evaluate their performance using classification metrics, and compare their prediction accuracy.
+Algorithm Step I : Import the required Python libraries for data manipulation, preprocessing, model training, and evaluation.
+Step 2: Load the Adult Income dataset into a pandas DataFrame. 
+Step 3: Assign appropriate column names to the dataset.
+Step 4: Replace missing values (?) with NaN and remove records containing missing values.
+Step 5: Encode the target class (Income) into numerical values using Label Encoding. Step 6: Group less frequent countries into the category Other to reduce data sparsity (optional preprocessing step).
+Step 7: Convert categorical attributes into numerical form using One-Hot Encoding.
+Step 8: Separate the feature variables (X) and target variable (y).
+Step 9: Split the dataset into training and testing sets.
+Step 10: Train the Gaussian Naive Bayes classifier using the training data.
+Step 1 1: Predict the class labels for the testing data using the Gaussian Naive Bayes model.
+Step 12: Evaluate the Gaussian Naive Bayes classifier using:
+ 	Accuracy
+ 	Confusion Matrix
+ 	Precision
+ 	Recall
+ 	Fl -Score
+Step 13: Train the Multinomial Naive Bayes classifier using the same training data.
+Step 14: Predict the class labels for the testing data using the Multinomial Naive Bayes model.
+Step 15: Evaluate the Multinomial Naive Bayes classifier using:
+ 	Accuracy
+ 	Confusion Matrix
+ 	Precision
+ 	Recall  
+ 	Fl -Score
+Step 16: Compare the performance of both classifiers based on the evaluation metrics.
+Step 17: Use both trained models to predict the income class for a new sample record and compare their predictions.	 
+Program:
+import pandas as pd import numpy as np from sklearn.model selection import train test_split from sklearn.preprocessing import LabelEncoder from sklearn.naive_bayes import GaussianNB, MultinomialNB from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+# STEP 1 : LOAD DATASET
+data pd.read_csv("adult.csv", header—None) data.columns [
+"Age",
+"Workclass" ,
+"fnlgt",
+"Education" ,
+"Education num",
+"Marital Status",
+"Occupation" ,
+"Relationship" ,
+"Race",
+"Sex" ,
+"Capital_Gain",
+"Capital_Loss",
+"Hours_per_week" ,
+"Native_Country" ,
+"Income"
+print("First Five Records") print(data.head()) print("\nDataset Shape :", data.shape) # STEP 2 : REMOVE MISSING VALUES  data.replace(" ?", np.nan, inplace=Tme) data.dropna(inplace=True)  print("\nDataset Shape After Removing Missing Values") print(data.shape)  
+# STEP 3 : ENCODE TARGET VARIABLE  label LabelEncoder() datal "Income"] label.fit transform(data["lncome"]) # STEP 4 : GROUP OTHER COUNTRIES datal "Native_Country"] datal"Native_Country"] .apply( lambda x: x if x	' United-States" else "Other"
+# STEP 5 : ONE HOT ENCODING  categorical columns data.select dtypes(include="object").columns data — pd.get dummies(data, columns=categorical columns) print("\nDataset After Encoding") print(data.head()) 
+# STEP 6 : SPLIT FEATURES AND LABEL X data.drop("lncome", axis—I) y datal"Income"]	 # STEP 7 : TRAIN TEST SPLIT
+X train, X_test, y_train, y_test train test split( x,
+test size=0.20, random state=42
+# STEP 8 : GAUSSIAN NAIVE BAYES
+ 
+gnb GaussianNB()
+gnb.fit(X train, y_train) gnb_prediction = gnb.predict(X test) print("\nAccuracy :", round(accuracy_score(y_test, gnb_prediction)* 100 2), "%" ) print("\nConfusion Matrix") print(confusion_matrix(y_test, gnb_prediction)) print("\nClassification Report") print(classification report(y_test, gnb_prediction)) # STEP 9 : MULTINOMIAL NAIVE BAYES
+ 
+mnb = MultinomialNB() mnb.fit(X train, y_train) mnb_prediction mnb.predict(X test) print("\nAccuracy :", round(accuracy score(y_test,  100 2),"%") print("\nConfusion Matrix") print(confusion_matrix(y_test, mnb_prediction))  print("\nClassification Report")  print(classification report(y_test, mnb_prediction))  # STEP 10 : ACCURACY COMPARISON comparison pd.DataFrame( {  "Model": [
+"Gaussian Naive Bayes",  
+"Multinomial Naive Bayes"
+"Accuracy (%)":[  round(accuracy score(y_test,gnb_prediction)* 100,2), round(accuracy_score(y_test,mnb_prediction) * 100,2)
+print("\n
+# STEP 11 : PREDICT NEW SAMPLE sample X test.iloc[[0]] print("\nActual Class :", y_test.iloc[0]) print("Gaussian Prediction :", gnb.predict(sample)[()]) print("Multinomial Prediction :", mnb.predict(sample)[0]) print("\nProbability (Gaussian)") print(gnb.predict_proba(sample)) print("\nProbability (Multinomial)") print(mnb.predict_proba(sample))
+Expected Output:
+ 
+ 
+MULTINOMIAL NAIVE BAYES
