@@ -1,0 +1,118 @@
+Experiment No
+Name of the Experiment
+Problem Statement
+ 
+: Linear and Polynomial Regression
+ 
+To implement Linear Regression and Polynomial Regression models for predicting a continuous target variable, evaluate their performance using MAE, MSE, RMSE, and R2 Score, and compare the regression models through visualization.
+Algorithm /Procedure
+Stepl :lmport the required Python libraries and load the dataset.
+Step2:Perform data preprocessing by handling missing values and selecting input and output features.
+Step3:Split the dataset into training and testing sets.	 
+Step4:Train the Linear Regression model using the training data.
+Step5:Predict the target values using the Linear Regression model. Step6:Evaluate the model using MAE, MSE, RMSE and R2 Score.
+Step7:Transform the input features into polynomial features.
+Step8:Train the Polynomial Regression model using the transformed features.
+Step9:Predict the target values using the Polynomial Regression model.
+Step 10:Compare the performance of Linear and Polynomial Regression models. Stepl I : Visualize the regression curves and interpret the results.  
+Python Program: # Import Libraries import numpy as np import pandas as pd  import matplotlib.pyplot as plt  from sklearn.model selection import train test split from sklearn.linear model import LinearRegression from sklearn.preprocessing import PolynomialFeatures from sklearn.metrics import mean absolute error¯  from sklearn.metrics import mean squared error  from sklearn.metrics import r2 score 
+# Load Dataset  data = pd.read csv("Salary Data.csv")  
+print("First Five Records")  print(data.head()) print("\nDataset Information") print(data. info()) print("\nStatistical Summary") print(data.describe())
+# Scatter Plot plt.figure(figsize=(8,6)) plt.scatter(data["YearsExperience"], data["Salary"], color="blue") plt.xlabel("Years of Experience")
+plt.ylabel("Salary") plt.title("Salary vs Years of Experience") plt.grid(True) plt.show()
+# Prepare Data
+X	= data[["YearsExperience"]]
+Y	= datal "Salary"]
+# Split Dataset
+X train, X test, y train, y test = train test split( x,
+test size=0.30, random state=42
+# LINEAR REGRESSION
+linear model LinearRegression()  
+linear model.fit(X train, y train)
+y_pred linear = linear model.predict(X test)
+# Evaluation Metrics
+mae linear = mean absolute error(y test, y_pred linear) mse linear = mean squared error(y test, y_pred linear) rmse_linear = np.sqrt(mse_linear) r2 linear = r2 score(y test, y_pred linear 
+print("\n— inear Regression 
+print("lntercept :", linear model.intercept_) print("Coefficient :", linear model.coef [0])  print("\nMAE : ", mae linear) print("MSE :", mse linear)  print("RMSE:", rmse linear) print("R2 Score:" , r2 linear)
+# POLYNOMIAL REGRESSION poly = PolynomialFeatures(degree=2) X train_poly = poly.fit transform(X train) X_test_poly = poly.transform(X_test) poly model = LinearRegression() poly model.fit(X train_poly, y train) y_pred_poly = poly_model.predict(X test_poly) # Evaluation Metrics
+mae_poly — mean absolute error(y test, y_pred_poly) mse_poly = mean squared error(y test, y_pred_poly) rmse_poly = np.sqrt(mse_poly) r2_poly = r2 score(y_test, y_pred_poly) print("\n = Polynomial Regression —  print("MAE :", mae_poly) print("MSE :", mse_poly) print("RMSE:", rmse_poly) print("R2 Score:", r2_poly) # Comparison Table comparison = pd.DataFrame( {
+	"Metric":   Score"],	 
+"Linear Regression": [ mae linear, mse linear, rmse linear, r2 linear
+"Polynomial Regression" :[  mae_poly, mse_poly, rmse_poly, r2_poly
+ —SES'DENCY
+plt.figure(figsize=(8,6)) 
+plt.scatter(X, y, color="blue", label="Data") 
+plt.plot( x, linear model.predict(X), color="red", linewidth=3, label="Linear Regression"
+plt.xlabel("Years of Experience") plt.ylabel("Salary") plt.title("Linear Regression") plt.legend() plt.grid(True) plt.show()
+# Polynomial Regression Curve
+X grid = np.linspace(
+X.min(),
+X.max(),
+100
+).reshape(-l,l)
+X grid_poly — poly.transform(X_grid) plt.figure(figsize=(8,6)) plt.scatter(X, y, color="blue", label="Data") plt.plot( X grid, poly model.predict(X grid_poly), color="green", linewidth=3, label="Polynomial Regression"  
+plt.xlabel("Years of Experience") plt.ylabel("Salary") plt.title("Polynomial Regression (Degree  plt.legend() plt.grid(True) plt.show()
+# Actual vs Predicted (Linear)
+plt.figure(figsize=(8,6))  plt.scatter(y test, y_pred linear, color="red") plt.plot(
+[y test.min(), y test.max()],  [y_test.min(), y_test.max()], 
+  color="black"	IVERSITY
+plt.xlabel("Actual Salary")  plt.ylabel("Predicted Salary") plt.title("Actual vs Predicted (Linear Regression)") plt.grid(True) plt.show()
+# Actual vs Predicted (Polynomial)
+plt.figure(figsize=(8,6)) plt.scatter(y test, y_pred_poly, color="green") plt.plot(
+[y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color="black"
+plt.xlabel("Actual Salary") plt.ylabel("Predicted Salary") plt.title("Actual vs Predicted (Polynomial Regression)") plt.grid(True) plt.show()
+Expected Output:
+ — Linear Regression  Intercept : 25918.438334893202
+Coefficient : 9339.081723815198
+MAE : 5161.328710400183	 
+MSE : 37784662.46621314
+RMSE: 6146.92300799458	 
+R2 Score: 0.9414466227178214
+ Polynomial Regression 
+MAE : 5199.78207394021
+ 
+ 
+ 
+Comparison of Models
+	Metric	Linear Re ression	POI nomial Re ression
+o	MAE	5.161329e+03	5.199782e+03
+1	MSE	3.778466+07	3.836623+07
+2	RMSE	6.146923+03	6.194048e+03
+3	R2 Score	9.414466e-01	9.405454e-Ol
+ 
+2	4	6	8
+Years of Experience
+Actual vs Predicted (Polynomial Regression)
+ 
+UNIVERSITY
+Another example for polynomial regression:
+#Generating Better/Richer Synthetic Data
+Instead of relying on a tiny dataset where linear regression might perform nearly identically to polynomial regression, using data with a clearer non-linear (quadratic/cubic) relationship demonstrates the power of polynomial regression much better.
+import numpy as np import pandas as pd import matplotlib.pyplot as plt from sklearn.model selection import train test split from sklearn.preprocessing import PolynomialFeatures  from sklearn.linear model import LinearRegression from sklearn.metrics import mean absolute error, mean squared error, r2 score
+# l . Generate Non-Linear Synthetic Data np.random.seed(42)
+X raw = np.sort(np.random.uniform(-3, 3, size=(100, 1)))
+# Non-linear relationship: y = 0.5 * XA2 + X + 2 + noise
+ 
+# Store in a DataFrame  df= pd.DataFrame({'Feature': X raw.squeeze(), 'Target': y raw.squeeze()})  print(df.head())
+# Model Comparison
+# 2. Split into Train and Test sets
+X = dfl['Feature']] y = dfl'Target']
+X train, X test, y train, y test = train test split(X, y, test size=0.2, random state=42)
+# 3. Model l : Standard Linear Regression linear model — LinearRegression() linear model.fit(X train, y train) y_pred linear linear model.predict(X test)
+# 4. Model 2: Polynomial Regression (Degree = 2) poly2 = PolynomialFeatures(degree=2, include_bias=False)
+X train_poly2 = poly2.fit transform(X train)  X test_poly2 = poly2.transform(X test)
+poly mode12 = LinearRegression()  poly mode12.fit(X train_poly2, y train) y_pred_poly2 = poly_mode12.predict(X test_poly2)
+# 5. Evaluate Performance Metrics def evaluate(y true, y_pred):	 
+mae = mean absolute error(y true, y_pred) mse = mean squared error(y true, y_pred) rmse = np.sqrt(mse) r2 = r2 score(y_true, y_pred)  return mae, mse, rmse, r2
+metrics linear = evaluate(y test, Y—Pred linear) metrics_poly2 = evaluate(y test, y-pred-poly2)
+results df= pd.DataFrame({
+'Metric': ['MAE', 'MSE', 'RMSE', 'R2 Score'], 'Linear Regression': metrics linear,
+'Polynomial Regression (Deg 2)': metrics_poly2 print("\nModel Evaluation: 
+print(results df.to string(index=False))
+# Visualization
+# 6. Plotting the Curves
+X grid = np.linspace(X.min().item(), X.max().item(), 300).reshape(-1, l)
+# Predict across continuous range y_grid linear = linear model.predict(pd.DataFrame(X grid, columns=['Feature'])) y_grid_poly2 = poly_mode12.predict(poly2.transform(pd.DataFrame(X grid, columns=['Feature'])))
+plt.figure(figsize=(10, 6)) plt.scatter(X, y, color='gray', alpha=0.6, label='Data Points')  plt.plot(X grid, y_grid linear, color='red', linestyle , linewidth=2, label='Linear Fit') plt.plot(X grid, y_grid_poly2, color='green', linewidth=2.5, label='Polynomial Fit (Degree 2)')
+plt.xlabel('Feature') plt.ylabel('Target') plt.title('Linear vs. Polynomial Regression') plt.legend() plt.grid(True, linestyle—	alpha=0.6)  plt.show()
+ 
