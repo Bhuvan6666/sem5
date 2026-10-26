@@ -1,0 +1,116 @@
+Experiment No
+Name of the Experiment
+Problem Statement
+ 
+• Logistic Regression and Softmax Regression
+ 
+To implement Binary Logistic Regression and Softmax Regression for classification tasks, evaluate their performance using Confusion Matrix and ROC-AUC Score, and compare the effectiveness of binary and multiclass classification models.
+Algorithm
+Stepl :lmport the required Python libraries and load the dataset.
+Step2:Preprocess the dataset by handling missing values and encoding categorical variables if required.
+Step3:Split the dataset into training and testing sets.
+Step4:Train the Binary Logistic Regression model using the training data.
+Step5:Predict the class labels for the testing data.	 
+Step6:Evaluate the model using Confusion Matrix, Accuracy and ROC-AUC Score.
+Step7:Train the Softmax Regression model for multiclass classification.
+Step8:Predict the multiclass labels using the Softmax Regression model.
+Step9:Evaluate the Softmax Regression model using appropriate classification metrics.
+Step 10:Compare the performance of Binary Logistic Regression and Softmax Regression models.
+Python Program:
+import numpy as np import pandas as pd import matplotlib.pyplot as plt import seaborn as sns from sklearn.model selection import train test split from sklearn.preprocessing import StandardScaler, MinMaxScaler from sklearn.compose import make column transformer from sklearn.linear_model import LogisticRegression  from sklearn.metrics import accuracy score, confusion matrix, classification report, precision recall curve 
+# l . Setup Plot Style & Load Data sns.set style('whitegrid') plt.style.use("fivethirtyeight") data = pd.read_csv("advertising.csv")
+# 2. Exploratory Data Analysis (Visualization)
+# Age Distribution plt.figure(figsize—(8, 6)) data['Age'] .hist(bins=data['Age']. nunique()) plt.xlabel('Age')
+# Jointplots sns.jointplot(x=data["Area Income"], y=data['Age']) sns.jointplot(x=data["Daily Time Spent on Site"], y=data['Age'], kind='kde') sns.jointplot(x=data["Daily Time Spent on Site"], y=data["Daily Internet Usage"])
+# Pairplot & Target Counts sns.pairplot(data, hue='Clicked on Ad') print("Target Class Counts:\n", datal'Clicked on Ad'].value counts())
+# Sigmoid Function Demonstration x — np.linspace(-6, 6, num=1000) plt.figure(figsize=(10, 6)) plt.plot(x, (1 / (1 + np.exp(-x))))  plt.xlabel("x") plt.ylabel("y") plt.title("Sigmoid Function")  
+# 3. Data Preprocessing & Train-Test Split	 
+X = data.drop(['Timestamp', 'Clicked on Ad', 'Ad Topic Line', 'Country', 'City'], axis=l) y = datal'Clicked on Ad']
+X_train, X test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+num columns = ['Daily Time Spent on Site', 'Age', 'Area Income', 'Daily Internet Usage', 'Male']
+ct = make column transformer( (MinMaxScaler(), num columns),  (StandardScaler(), num columns), remainder='passthrough'
+X train = ct.fit transform(X train)
+X test = ct.transform(X test)
+# 4. Helper Function for Model Evaluation def print score(clf, X train, y train, X test, y test, train=True):
+if train:
+pred — clf.predict(X train) clf report pd.DataFrame(classification report(y train, pred, output dict=True)) print("Train Result:\n—=============================——  print(f'Accuracy Score: {accuracy_score(y_train, pred) * 100  print("  print(f'CLASSIFICATION  
+print("  print(f'Confusion Matrix: \n {confusion matrix(y train, pred)}\n") else:
+pred — clf.predict(X test)  clf report pd.DataFrame(classification report(y test, pred, output dict=True)) print("Test Result:\n=============================================——") print(f'Accuracy Score: {accuracy score(y test, pred) * 100•. 
+print("  print(f'CLASSIFICATION 
+print("  print(f'Confusion Matrix: \n {confusion_matrix(y_test, pred)}\n")
+# 5. Train Model & Evaluate
+Ir clf= LogisticRegression(solver='liblinear')
+Ir clf.fit(X train, y train) print score(lr clf, X train, y train, X test, y test, train—-True) print score(lr train, y train, X test/y test, train—-False)
+# 6. Precision / Recall Tradeoff Plo  def plot_precision recall threshold(precisions, recalls, threshold  plt.plot(thresholds, precisions[:-l], "b--", label="Precision") plt.plot(thresholds, recalls[:-l], "g--", label="Recall") plt.xlabel("Threshold") plt.legend(loc="upper left") plt.title("Precisions/recalls tradeoff') precisions, recalls, thresholds = precision recall curve(y test, Ir clf.predict(X test)) plt.figure(figsize=(15, 10))
+plt.subplot(2, 2, l) plot_precision recall vs threshold(precisions, recalls, thresholds) plt.subplot(2, 2, 2) plt.plot(precisions, recalls) plt.xlabel("Precision") plt.ylabel("Recall") plt.title("PR Curve: precisions/recalls tradeoff') plt.show()
+Excepted Output:
+ 	Clicked on Ad
+Sigmoid Function
+0.8
+0.0
+0.4
+0.2
+	Precisions/recalls tradeoff	PR Curve: precisions/recalls tradeoff
+1.01.0
+0.90.8
+0.8— 0.6
+0.70.4
+0.60.2
+0.50.0
+0.0	0.2	0.4	0.6	0.8	1.0	0.5	0.6	0.7	0.8	0.9	1.0 Threshold	Precision
+Softmax regression
+from sklearn.metrics import ( accuracy score, classification report, confusion matrix,
+ConfusionMatrixDisplay
+data['Age Group'] = pd.qcut( datal'Age'],
+ 'Middle', 'Senior']
+print("\nAge Group Distribution") print(data['Age Group'].value counts())
+# Exploratory Data Analysis
+plt.figure(figsize=(8,5)) sns.countplot(x='Age Group', data=data) plt.title("Distribution of Age Groups") plt.show()
+sns.pairplot( data, vars=['Daily Time Spent on Site',
+'Area Income', 'Daily Internet Usage'], hue='Age Group'
+plt.show()
+# Select Features and Target
+X — data[['Daily Time Spent on Site',
+'Area Income',
+'Daily Internet Usage']] y — datal'Age Group']
+# Train-Test Split
+X train, X test, y train, y test = train test split( x,
+test size=0.30, random state=42, stratify=y
+# Feature Scaling scaler StandardScaler() X train = scaler.fit transform(X train)
+X test = scaler.transform(X test)
+#Train Softmax Regression Model softmax model = LogisticRegression( multi class='multinomial', solver='lbfgs', max iter=1000, random state=42 softmax model.fit(X train, y train)
+# Model Parameters
+print("\nlntercept") print(softmax model.intercept_) print("\nCoefficients") print(pd.DataFrame( softmax model.coef columns=['Daily Time',
+'Area Income',
+'Internet Usage'], index=softmax model.classes
+# Predictions
+y_pred — softmax model.predict(X test) print("\nFirst 10 Predictions") results = pd.DataFrame( {
+"Actual": y test.values,
+"Predicted": y_pred
+ 10))
+# Class Probabilities prob = softmax model.predict_proba(X test) print("\nPredicted Probabilities (First 5 Samples)") print(pd.DataFrame( prob, columns=softmax model.classes
+) .head())
+# Accuracy accuracy = accuracy score(y test, y_pred) print("\nAccuracy : {:.2f}%".format(accuracy*100))
+# Classification Report
+print("\nClassification Report") print(classification report(y test, y_pred)) # 16. Confusion Matrix
+cm = confusion matrix(y test, y_pred) print("\nConfusion Matrix") print(cm)
+disp = ConfusionMatrixDisplay( confusion matrix=cm, display labels=softmax model.classes 
+disp.plot(cmap='Blues') plt.title("Confusion Matrix") plt.show()
+# Prediction for New Sample
+new data — np.array([[70,60000,220]]) new data = scaler.transform(new data) prediction — softmax_model.predict(new data) probability — softmax_model.predict_proba(new_data) print("\nPredicted Age Group :", prediction[0]) print("\nPrediction Probabilities") print(pd.DataFrame( probability, columns=softmax model.classes
+ 
+Expected Output:
+350
+300
+	250	Age_Group
+c 200• • "6ungMiddle
+senior
+150
+100
+50
+Middle
+	Age_Group	Daily Time Spent on SitArea Income Daily Internet Usage
+Confusion Matrix
+ 
+	Middle	Senior	Young
+Predicted label
